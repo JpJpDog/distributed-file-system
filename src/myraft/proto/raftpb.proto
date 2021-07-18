@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package raftpb;
+
+message RawDataReq{
+    bytes data = 1;
+}
+
+message RawDataRsp{
+    bytes data = 1;
+}
+
+service RaftRpc {
+    rpc append_entries(RawDataReq) returns (RawDataRsp);
+    rpc vote(RawDataReq) returns (RawDataRsp);
+    rpc install_snapshot(RawDataReq) returns (RawDataRsp);
+}

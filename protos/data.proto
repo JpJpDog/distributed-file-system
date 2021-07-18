@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package datapb;
+
+message ReadDataReq {
+    uint64 cid = 1;
+    uint64 offset = 2;
+    uint64 size = 3;
+}
+
+message ReadDataRsp {
+    bytes data = 1;
+}
+
+message CreateDataReq {
+    uint64 cid = 1;
+}
+
+message RemoveDataReq {
+    repeated uint64 cids = 1;
+    uint64 lid = 2;
+}
+
+message RemoveDataRsp {
+    bool ok = 1;
+}
+
+message CommitDataReq {
+    uint64 lid = 1;
+}
+
+message CommitDataRsp {
+    bool ok = 1;
+}
+
+message TransferOp {
+    string from_addr = 1;
+    uint64 to_cid = 2;
+    uint64 to_offset = 3;
+    uint64 from_cid = 4;
+    uint64 from_offset = 5;
+    uint64 size = 6;
+}
+
+message TransferReq {
+    repeated TransferOp ops = 1;
+    uint64 lid = 2;
+}
+
+message TransferRsp {
+    bool ok = 1;
+}
+
+service DataRpc {
+    rpc read(ReadDataReq) returns(ReadDataRsp);
+    rpc remove(RemoveDataReq) returns(RemoveDataRsp);
+    rpc commit(CommitDataReq) returns(CommitDataRsp);
+    rpc transfer(TransferReq) returns(TransferRsp);
+}

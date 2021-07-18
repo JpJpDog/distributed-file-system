@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package metapb;
+
+
+message CreateReq {
+    string filename = 1;
+}
+
+message CreateRsp {
+    bool exist = 1;
+}
+
+message ReadReq {
+    string filename = 1;
+    uint64 offset = 2;
+    uint64 size = 3;
+}
+
+message ReadOp {
+    string addr = 1;
+    uint64 cid = 2;
+    uint64 offset = 3;
+    uint64 size = 4;
+}
+
+message ReadRsp {
+    repeated ReadOp ops = 1;
+}
+
+message WriteReq {
+    string filename = 1;
+    uint64 offset = 2;
+    uint64 ins = 3;
+    uint64 del = 4;
+    string client_addr = 5;
+}
+
+message WriteRsp {
+    bool ok = 1;
+}
+
+message RemoveReq {
+    string filename = 1;
+}
+
+message RemoveRsp {
+    bool exist = 1;
+}
+
+service MetaRpc {
+    rpc create(CreateReq) returns(CreateRsp);
+    rpc read(ReadReq) returns(ReadRsp);
+    rpc write(WriteReq) returns(WriteRsp);
+    rpc remove(RemoveReq) returns(RemoveRsp);
+}

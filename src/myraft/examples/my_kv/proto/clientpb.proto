@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package clientpb;
+
+message ReadRpcReq {
+    uint64 id = 1;
+}
+
+message ReadRpcRsp {
+    bool found = 1;
+    string data = 2;
+}
+
+enum ReqKind {
+    Insert = 0;
+    Remove = 1;
+}
+
+message WriteRpcReq {
+    ReqKind kind = 1;
+    uint64 key = 2;
+    string data = 3;
+}
+
+message WriteRpcRsp {
+    ReqKind kind = 1;
+    bool found = 2;
+    string prev = 3;
+}
+
+service ClientRpc {
+    rpc read(ReadRpcReq) returns (ReadRpcRsp);
+    rpc write(WriteRpcReq) returns (WriteRpcRsp);
+}
